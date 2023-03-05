@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="search">Search by ID:</label>
+    <input type="text" id="search">
+    <button id="search-btn">Search</button>
+    <ul id="user-list"></ul>
+    <ul>
+        <li><a href="javascript:history.back()">Go Back</a></li>
+    </ul>
+</body>
+
+
+
+<script>
+    const userList = document.getElementById('user-list');
+    const searchInput = document.getElementById('search');
+    const searchBtn = document.getElementById('search-btn');
+
+    searchBtn.addEventListener('click', () => {
+      const userId = searchInput.value;
+      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+          userList.innerHTML = `
+            <li>Name: ${user.name}</li>
+            <li>Email: ${user.email}</li>
+            <li>Phone: ${user.phone}</li>
+          `;
+        })
+        .catch(error => console.error(error));
+    });
+
+  </script>
+
+</html>

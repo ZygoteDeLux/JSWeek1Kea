@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Search</title>
+</head>
+<body>
+  <label for="search">Search by ID:</label>
+  <input type="text" id="search">
+  <button id="search-btn">Search</button>
+  <ul id="user-list"></ul>
+
+  <button id="get-all-btn">Get All Users</button>
+  <table id="all-users"></table>
+    <ul>
+        <li><a href="javascript:history.back()">Go Back</a></li>
+    </ul>
+  <script>
+    const userList = document.getElementById('user-list');
+    const searchInput = document.getElementById('search');
+    const searchBtn = document.getElementById('search-btn');
+    const allUsersTable = document.getElementById('all-users');
+    const getAllBtn = document.getElementById('get-all-btn');
+
+    searchBtn.addEventListener('click', () => {
+      const userId = searchInput.value;
+      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+        .then(response => response.json())
+        .then(user => {
+          userList.innerHTML = `
+            <li>Name: ${user.name}</li>
+            <li>Email: ${user.email}</li>
+            <li>Phone: ${user.phone}</li>
+          `;
+        })
+        .catch(error => console.error(error));
+    });
+
+    getAllBtn.addEventListener('click', () => {
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(users => {
+          allUsersTable.innerHTML = `
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+            </tr>
+          `;
+          users.forEach(user => {
+            allUsersTable.innerHTML += `
+              <tr>
+                <td>${user.name}</td>
+                <td>${user.phone}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(error => console.error(error));
+    });
+  </script>
+</body>
+</html>
