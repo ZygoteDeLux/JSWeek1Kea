@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table id="cars">cars</table>
+</body>
+<script>
+    window.onload=getCars
+
+    const getAll = document.getElementById("cars")
+
+    function getCars(){
+
+   
+        fetch("https://carsoscarkea.azurewebsites.net/api/cars")
+        .then(res=>res.json())
+        .then(data=>{
+        let text =  `<tr>
+                <th>id</th><th>brand</th><th>model</th><th>price per day</th><th>best discount</th><th>created</th>
+            </tr>`
+            text+=data.map(car=>"<tr><td>"+car.id+"</td><td>"+car.brand+"</td><td>"+car.model+"</td><td>"+car.pricePrDay+"</td><td>"+car.bestDiscount+"%</td><td>"+car.created+"</td></tr>").join("")
+    getAll.innerHTML=text
+})
+}
+
+    
+
+
+</script>
+
+</html>
